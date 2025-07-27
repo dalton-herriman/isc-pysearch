@@ -1,0 +1,21 @@
+<table>
+    <thead>
+        <tr>
+            {% for col in columns %}
+                <th>{{ col }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in data %}
+        <tr>
+            {% for value in row.values() %}
+                <td>{{ value }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        {% if data|length == 0 %}
+        <tr><td colspan="{{ columns|length }}">No results found</td></tr>
+        {% endif %}
+    </tbody>
+</table>

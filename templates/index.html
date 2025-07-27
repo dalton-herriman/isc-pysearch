@@ -2,27 +2,35 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>HTMX Table</title>
+    <title>Dynamic Search Table</title>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <style>
-        table { border-collapse: collapse; width: 100%; }
+        table { border-collapse: collapse; width: 100%; margin-top: 10px; }
         th, td { padding: 8px; border: 1px solid #ccc; }
-        th { background: #f2f2f2; text-align: left; }
+        th { background: #f2f2f2; }
+        #searchbar { margin-bottom: 10px; }
     </style>
 </head>
 <body>
-    <h2>User Table</h2>
-    <table hx-get="/data" hx-trigger="load" hx-target="tbody">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- HTMX will replace this with table_rows.html -->
-        </tbody>
-    </table>
+    <h2>Search</h2>
+
+    <!-- Search Controls -->
+    <div id="searchbar">
+        <select id="type" name="type">
+            <option value="identities">Identities</option>
+            <option value="roles">Roles</option>
+            <option value="events">Events</option>
+        </select>
+        <input type="text" id="query" name="query" placeholder="name contains John">
+        <button hx-get="/data"
+                hx-target="#table-container"
+                hx-vals='js:{"type": document.getElementById("type").value, "query": document.getElementById("query").value}'>
+            Search
+        </button>
+    </div>
+
+    <!-- Table Container -->
+    <div id="table-container" hx-get="/data" hx-trigger="load" hx-vals='{"type":"identities"}'></div>
+
 </body>
 </html>
